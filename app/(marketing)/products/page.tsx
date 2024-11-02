@@ -6,10 +6,10 @@ import { Icons } from "@/components/icons"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Products",
 }
 
-export default function PricingPage() {
+export default function ProductsPage() {
   return (
     <section className="container flex flex-col  gap-6 py-8 md:max-w-5xl md:py-12 lg:py-24">
       <div className="mx-auto flex w-full flex-col gap-4 md:max-w-[58rem]">
@@ -61,7 +61,7 @@ export default function PricingPage() {
       </div>
       <div className="mx-auto flex w-full max-w-[58rem] flex-col gap-4">
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:leading-7">
-          Baruduck is a demo app.{" "}
+          Beda is a demo app.{" "}
           <strong>You can test the upgrade and won&apos;t be charged.</strong>
         </p>
       </div>
