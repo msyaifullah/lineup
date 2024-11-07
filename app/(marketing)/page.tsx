@@ -4,6 +4,7 @@ import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import Counter from "./boxx"
 
 async function getGitHubStars(): Promise<string | null> {
   try {
@@ -37,6 +38,7 @@ export default async function IndexPage() {
 
   return (
     <>
+    <Counter/>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
         <div className="container flex max-w-5xl flex-col items-center gap-4 text-center">          
           <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
@@ -48,7 +50,7 @@ export default async function IndexPage() {
           </p>         
         </div>
       </section>
-     
+      
     </>
   )
 }
