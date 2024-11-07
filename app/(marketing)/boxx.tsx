@@ -23,7 +23,7 @@ function Box(props) {
       onPointerOut={(event) => hover(false)}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+      <meshStandardMaterial color={hovered ? "#EE6B2B" : "orange"} />
     </mesh>
   )
 }
@@ -31,7 +31,7 @@ function Box(props) {
 export default function Counter() {
   return (
     <div className="fixed top-0 z-10">
-      <div className="w-full h-dvh">
+      <div className="w-dvw h-dvh">
         <Canvas>
           <ambientLight intensity={Math.PI / 2} />
           <spotLight
