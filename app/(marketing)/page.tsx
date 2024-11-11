@@ -1,11 +1,5 @@
-import Link from "next/link"
+import RocketScene from "./rocket-scene"
 
-import { env } from "@/env.mjs"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-
-import Counter from "./box"
 
 async function getGitHubStars(): Promise<string | null> {
   try {
@@ -34,12 +28,14 @@ async function getGitHubStars(): Promise<string | null> {
   }
 }
 
+
+
 export default async function IndexPage() {
   const stars = await getGitHubStars()
 
   return (
-    <div className="flex">
-      <Counter />
+    <div className="flex">  
+    <RocketScene/>    
       <section className="w-dvw space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 z-20">
         <div className="container flex max-w-5xl flex-col items-center gap-4 text-center">
           <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
@@ -53,6 +49,7 @@ export default async function IndexPage() {
           </p>
         </div>
       </section>
+      
     </div>
   )
 }
