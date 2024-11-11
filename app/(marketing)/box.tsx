@@ -23,7 +23,7 @@ function Box(props) {
       onPointerOut={(event) => hover(false)}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "#EE6B2B" : "orange"} />
+      <meshStandardMaterial color={hovered ? "#EE6B2B" : "#F6AC3D"} />
     </mesh>
   )
 }
@@ -48,6 +48,7 @@ export default function Counter() {
           />
           <Box position={[-1.2, 0, 0]} />
           <Box position={[1.2, 0, 0]} />
+          <Box position={[0, 0, 0]} />
           <OrbitControls />
         </Canvas>
       </div>
