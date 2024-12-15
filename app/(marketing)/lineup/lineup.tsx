@@ -25,21 +25,37 @@ export function Formation({ className, ...props }: FormationProps) {
 
   const [selectedPreset, setSelectedPreset] = React.useState<
     string | undefined
-  >(undefined)
+  >("4-2-2")
   const [selectedPlayerCount, setSelectedPlayerCount] = React.useState<
     string | undefined
-  >(undefined)
+  >("11")
 
   const [position, setPosition] = React.useState<{ x: number; y: number }[]>([])
 
   const [athlete, setAthlete] = React.useState<
-    { name: string; number: number; isCaptain?: boolean }[]
+    {
+      name: string
+      number: number
+      rating?: number
+      nationality?: string
+      position?: string
+      isManOfTheMatch?: boolean
+      isCaptain?: boolean
+      isSubstituted?: boolean
+    }[]
   >([
     { name: "Player 1", number: 1, isCaptain: true },
     { name: "Player 2", number: 2 },
     { name: "Player 3", number: 3 },
-    { name: "Player 4", number: 4 },
-    { name: "Player 5", number: 5 },
+    { name: "Player 4", number: 4, isSubstituted: true },
+    {
+      name: "Neymar",
+      number: 5,
+      nationality: "BR",
+      rating: 4.5,
+      position: "MF",
+      isManOfTheMatch: true,
+    },
     { name: "Player 6", number: 6 },
     { name: "Player 7", number: 7 },
     { name: "Player 8", number: 8 },
@@ -54,6 +70,12 @@ export function Formation({ className, ...props }: FormationProps) {
         defaultValue={selectedPlayerCount}
         onValueChange={(value) => {
           setPlayer(value)
+
+          setPosition(
+            FORMATION[Number(selectedPlayerCount)].find(
+              (preset) => preset.name === value
+            )?.positions || []
+          )
         }}
       >
         <SelectTrigger className="mx-auto mb-2 w-[180px]">
@@ -108,9 +130,9 @@ export function Formation({ className, ...props }: FormationProps) {
             )?.player.map((value) => (
               <div
                 key={value}
-                className="absolute w-[30px] h-[30px] bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="absolute w-[70px] h-[70px] bg-slate-500 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300"
                 style={{
-                  transform: `translate(${position[value].x - 15}px, ${position[value].y - 15}px)`,
+                  transform: `translate(${position[value].x - 35}px, ${position[value].y - 35}px)`,
                   transition: "transform 0.3s ease-out",
                 }}
               >
@@ -118,8 +140,26 @@ export function Formation({ className, ...props }: FormationProps) {
                 {athlete[value]?.number && (
                   <span className="text-xs"> ({athlete[value]?.number})</span>
                 )}
+                {athlete[value]?.rating && (
+                  <span className="text-xs"> ({athlete[value]?.rating})</span>
+                )}
+                {athlete[value]?.nationality && (
+                  <span className="text-xs">
+                    {" "}
+                    ({athlete[value]?.nationality})
+                  </span>
+                )}
+                {athlete[value]?.position && (
+                  <span className="text-xs"> ({athlete[value]?.position})</span>
+                )}
                 {athlete[value]?.isCaptain && (
                   <span className="text-xs"> (C)</span>
+                )}
+                {athlete[value]?.isManOfTheMatch && (
+                  <span className="text-xs"> (MTM)</span>
+                )}
+                {athlete[value]?.isSubstituted && (
+                  <span className="text-xs"> (SUB)</span>
                 )}
               </div>
             ))}
