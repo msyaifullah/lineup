@@ -15,7 +15,7 @@ function Model(props) {
   const scroll = useScroll()
   const { nodes, materials, animations } = useGLTF("/jump-transformed.glb")
   const { ref, actions } = useAnimations(animations)
-  useEffect(() => void (actions.jump!.reset().play().paused = true), [])
+  useEffect(() => void (actions.jump!.reset().play().paused = true), [actions.jump])
   useFrame(
     () => (actions.jump!.time = actions.jump!.getClip().duration * scroll.offset)
   )
@@ -36,7 +36,7 @@ function Model(props) {
 export default function Counter() {
   return (
     <div className="fixed top-0 z-10">
-      <div className="w-dvw h-dvh">
+      <div className="h-dvh w-dvw">
         <Canvas
           shadows
           gl={{ antialias: false }}

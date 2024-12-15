@@ -36,7 +36,7 @@ function Model({ url }) {
 export default function RocketScene() {
   return (
     <div className="fixed top-0 z-10">
-      <div className="w-dvw h-dvh">
+      <div className="h-dvh w-dvw">
         <Canvas dpr={[1.5, 2]} linear shadows>
           <fog attach="fog" args={["#272730", 16, 0]} />
           <ambientLight intensity={0.75} />

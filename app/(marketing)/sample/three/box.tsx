@@ -13,7 +13,7 @@ import { Box, Cactus, Camera, Level, Sudo } from "./scene"
 export default function Counter() {
   return (
     <div className="fixed top-0 z-10">
-      <div className="w-dvw h-dvh">
+      <div className="h-dvh w-dvw">
         <Canvas flat>
           <Fisheye zoom={0}>
             <CameraControls minPolarAngle={0} maxPolarAngle={Math.PI / 1.6} />

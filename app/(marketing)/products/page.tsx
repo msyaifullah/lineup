@@ -34,7 +34,7 @@ export default function ProductsPage() {
           Beda always in development.{" "}
           <strong>
             You can always comeback to seeing the progress or throw new
-            Error("")
+            Error(&quot;&quot;)
           </strong>
         </p>
       </div>
