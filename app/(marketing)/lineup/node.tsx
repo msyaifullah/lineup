@@ -1,54 +1,69 @@
 "use client"
+
 import React, { useEffect, useRef, useState } from "react"
 
+import { Athlete } from "./constant"
+
 interface DraggableDivProps {
-  initialX: number
-  initialY: number
+  value: number
+  position: { x: number; y: number }[]
+  athlete: Athlete[]
 }
 
-const DraggableDiv: React.FC<DraggableDivProps> = ({ initialX, initialY }) => {
+const DraggableDiv: React.FC<DraggableDivProps> = ({
+  value,
+  position,
+  athlete,
+}) => {
   const divRef = useRef<HTMLDivElement>(null)
-  const [position, setPosition] = useState({ x: initialX, y: initialY })
-
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, clientY } = event
-    const { x, y } = position
-
-    const handleMouseMove = (event: MouseEvent) => {
-      const deltaX = event.clientX - clientX
-      const deltaY = event.clientY - clientY
-      setPosition({ x: x + deltaX, y: y + deltaY })
-    }
-
-    const handleMouseUp = () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("mouseup", handleMouseUp)
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("mouseup", handleMouseUp)
-  }
-
-  useEffect(() => {
-    if (divRef.current) {
-      divRef.current.style.left = `${position.x}px`
-      divRef.current.style.top = `${position.y}px`
-    }
-  }, [position])
 
   return (
     <div
       ref={divRef}
+      key={value}
+      className="absolute flex size-[70px] items-center justify-center rounded-full bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
       style={{
-        position: "absolute",
-        width: "100px",
-        height: "100px",
-        backgroundColor: "blue",
-        cursor: "grab",
+        transform: `translate(${position[value].x - 35}px, ${position[value].y - 35}px)`,
+        transition: "transform 0.3s ease-out",
       }}
-      onMouseDown={handleMouseDown}
     >
-      Drag Me
+      <div className="absolute  right-[-10px] top-0">
+        {athlete[value]?.rating && (
+          <span className="text-xs"> {athlete[value]?.rating}</span>
+        )}
+      </div>
+
+      <div className="">
+        {athlete[value]?.number && (
+          <span className="text-xl"> {athlete[value]?.number}</span>
+        )}
+      </div>
+
+      <div className="absolute bottom-0 right-[-10px] flex items-end">
+        {athlete[value]?.isCaptain && <span className="text-xs"> (C) </span>}
+        {athlete[value]?.isManOfTheMatch && (
+          <span className="text-xs"> M </span>
+        )}
+        {athlete[value]?.isSubstituted && <span className="text-xs"> S </span>}
+      </div>
+
+      <div className="absolute bottom-[-30px] flex flex-row ">
+        <div>
+          {athlete[value]?.nationality && (
+            <span className="text-xs"> [{athlete[value]?.nationality}]</span>
+          )}
+        </div>
+
+        <div>
+          <span className="text-xs">{athlete[value]?.name}</span>
+        </div>
+
+        <div>
+          {athlete[value]?.position && (
+            <span className="text-xs"> ({athlete[value]?.position})</span>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

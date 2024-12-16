@@ -3,14 +3,25 @@ export interface Preset {
   image: string
   label: string
   description: string
-  positions: { x: number; y: number }[]
+}
+
+export interface Athlete {
+  name: string
+  number: number
+  rating?: number
+  nationality?: string
+  position?: string
+  isManOfTheMatch?: boolean
+  isCaptain?: boolean
+  isSubstituted?: boolean
+  isYellowCard?: boolean
+  isRedCard?: boolean
+  image?: string
 }
 
 export interface Player {
   name: string
-  image: string
   label: string
-  description: string
   player: number[]
 }
 
@@ -26,29 +37,62 @@ export interface Club {
   description: string
 }
 
+export const formationHelper = (
+  width: number,
+  height: number,
+  formation: string,
+  flip: boolean
+): { x: number; y: number }[] => {
+  // Pre-calculate common values
+  const horizontals = formation.split("-").map(Number)
+  const vertical = horizontals.length
+  const keeperPosition = { x: width / 2, y: flip ? height - 50 : 50 }
+
+  // Initialize array with calculated size
+  const totalPlayers = horizontals.reduce((sum, count) => sum + count, 0) + 1
+  const result = new Array(totalPlayers)
+
+  // Use single loop with index tracking
+  let currentIndex = flip ? 0 : 1
+  const positions = flip ? horizontals.reverse() : horizontals
+
+  for (let i = 0; i < vertical; i++) {
+    const playersInRow = positions[i]
+    const rowWidth = width / (playersInRow + 1)
+    const rowHeight = (height / (vertical + 1)) * (i + 1) + (flip ? -50 : +50)
+
+    for (let j = 0; j < playersInRow; j++) {
+      result[currentIndex++] = {
+        x: rowWidth * (j + 1),
+        y: rowHeight,
+      }
+    }
+  }
+
+  // Add keeper position
+  if (flip) {
+    result[totalPlayers - 1] = keeperPosition
+  } else {
+    result[0] = keeperPosition
+  }
+
+  return result
+}
+
 export const PLAYERS: Player[] = [
   {
     name: "5",
     label: "5",
-    description:
-      "A classic formation with four defenders, four midfielders, and two strikers.",
-    image: "https://example.com/images/4-4-2.png",
     player: [0, 1, 2, 3, 4],
   },
   {
     name: "7",
     label: "7",
-    description:
-      "A versatile formation with four defenders, three midfielders, and three forwards.",
-    image: "https://example.com/images/4-3-3.png",
     player: [0, 1, 2, 3, 4, 5, 6],
   },
   {
     name: "11",
     label: "11",
-    description:
-      "A defensive formation with three defenders, five midfielders, and two strikers.",
-    image: "https://example.com/images/3-5-2.png",
     player: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
 ]
@@ -61,13 +105,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-        { x: 150, y: 200 },
-        { x: 300, y: 200 },
-        { x: 150, y: 400 },
-        { x: 300, y: 400 },
-      ],
     },
     {
       name: "2-1-1",
@@ -75,13 +112,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-        { x: 150, y: 200 },
-        { x: 300, y: 200 },
-        { x: 225, y: 300 },
-        { x: 225, y: 400 },
-      ],
     },
     {
       name: "1-2-1",
@@ -89,13 +119,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-        { x: 225, y: 200 },
-        { x: 150, y: 300 },
-        { x: 300, y: 300 },
-        { x: 225, y: 400 },
-      ],
     },
     {
       name: "1-1-2",
@@ -103,13 +126,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-        { x: 225, y: 200 },
-        { x: 225, y: 300 },
-        { x: 150, y: 400 },
-        { x: 300, y: 400 },
-      ],
     },
   ],
   7: [
@@ -119,15 +135,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-        { x: 150, y: 200 },
-        { x: 300, y: 200 },
-        { x: 112.5, y: 350 },
-        { x: 225, y: 350 },
-        { x: 337.5, y: 350 },
-        { x: 225, y: 500 },
-      ],
     },
     {
       name: "2-1-2-1",
@@ -135,15 +142,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-        { x: 150, y: 200 },
-        { x: 300, y: 200 },
-        { x: 225, y: 300 },
-        { x: 150, y: 400 },
-        { x: 300, y: 400 },
-        { x: 225, y: 500 },
-      ],
     },
     {
       name: "3-2-1",
@@ -151,18 +149,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 112.5, y: 200 },
-        { x: 225, y: 200 },
-        { x: 337.5, y: 200 },
-
-        { x: 150, y: 350 },
-        { x: 300, y: 350 },
-
-        { x: 225, y: 500 },
-      ],
     },
     {
       name: "2-2-2",
@@ -170,18 +156,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 150, y: 200 },
-        { x: 300, y: 200 },
-
-        { x: 150, y: 350 },
-        { x: 300, y: 350 },
-
-        { x: 150, y: 500 },
-        { x: 300, y: 500 },
-      ],
     },
     {
       name: "1-4-1",
@@ -189,18 +163,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 225, y: 200 },
-
-        { x: 90, y: 350 },
-        { x: 180, y: 350 },
-        { x: 270, y: 350 },
-        { x: 360, y: 350 },
-
-        { x: 225, y: 500 },
-      ],
     },
     {
       name: "2-1-3",
@@ -208,18 +170,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 150, y: 200 },
-        { x: 300, y: 200 },
-
-        { x: 225, y: 350 },
-
-        { x: 112.5, y: 500 },
-        { x: 225, y: 500 },
-        { x: 337.5, y: 500 },
-      ],
     },
     {
       name: "4-1-1",
@@ -227,18 +177,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 90, y: 200 },
-        { x: 180, y: 200 },
-        { x: 270, y: 200 },
-        { x: 360, y: 200 },
-
-        { x: 225, y: 350 },
-
-        { x: 225, y: 500 },
-      ],
     },
   ],
   11: [
@@ -248,22 +186,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A classic formation with four defenders, four midfielders, and two strikers.",
       image: "https://example.com/images/4-4-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 90, y: 200 },
-        { x: 180, y: 200 },
-        { x: 270, y: 200 },
-        { x: 360, y: 200 },
-
-        { x: 90, y: 350 },
-        { x: 180, y: 350 },
-        { x: 270, y: 350 },
-        { x: 360, y: 350 },
-
-        { x: 150, y: 500 },
-        { x: 300, y: 500 },
-      ],
     },
     {
       name: "4-3-3",
@@ -271,22 +193,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A versatile formation with four defenders, three midfielders, and three forwards.",
       image: "https://example.com/images/4-3-3.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 90, y: 200 },
-        { x: 180, y: 200 },
-        { x: 270, y: 200 },
-        { x: 360, y: 200 },
-
-        { x: 112.5, y: 350 },
-        { x: 225, y: 350 },
-        { x: 337.5, y: 350 },
-
-        { x: 112.5, y: 500 },
-        { x: 225, y: 500 },
-        { x: 337.5, y: 500 },
-      ],
     },
     {
       name: "3-5-2",
@@ -294,22 +200,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A defensive formation with three defenders, five midfielders, and two strikers.",
       image: "https://example.com/images/3-5-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 112.5, y: 200 },
-        { x: 225, y: 200 },
-        { x: 337.5, y: 200 },
-
-        { x: 75, y: 350 },
-        { x: 150, y: 350 },
-        { x: 225, y: 350 },
-        { x: 300, y: 350 },
-        { x: 375, y: 350 },
-
-        { x: 150, y: 500 },
-        { x: 300, y: 500 },
-      ],
     },
     {
       name: "4-2-3-1",
@@ -317,23 +207,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A balanced formation with four defenders, two defensive midfielders, three attacking midfielders, and one striker.",
       image: "https://example.com/images/4-2-3-1.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 90, y: 200 },
-        { x: 180, y: 200 },
-        { x: 270, y: 200 },
-        { x: 360, y: 200 },
-
-        { x: 150, y: 300 },
-        { x: 300, y: 300 },
-
-        { x: 112.5, y: 400 },
-        { x: 225, y: 400 },
-        { x: 337.5, y: 400 },
-
-        { x: 225, y: 500 },
-      ],
     },
     {
       name: "5-3-2",
@@ -341,22 +214,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A very defensive formation with five defenders, three midfielders, and two strikers.",
       image: "https://example.com/images/5-3-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 75, y: 200 },
-        { x: 150, y: 200 },
-        { x: 225, y: 200 },
-        { x: 300, y: 200 },
-        { x: 375, y: 200 },
-
-        { x: 112.5, y: 350 },
-        { x: 225, y: 350 },
-        { x: 337.5, y: 350 },
-
-        { x: 150, y: 500 },
-        { x: 300, y: 500 },
-      ],
     },
     {
       name: "3-4-3",
@@ -364,22 +221,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "An attacking formation with three defenders, four midfielders, and three forwards.",
       image: "https://example.com/images/3-4-3.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 112.5, y: 200 },
-        { x: 225, y: 200 },
-        { x: 337.5, y: 200 },
-
-        { x: 90, y: 350 },
-        { x: 180, y: 350 },
-        { x: 270, y: 350 },
-        { x: 360, y: 350 },
-
-        { x: 112.5, y: 500 },
-        { x: 225, y: 500 },
-        { x: 337.5, y: 500 },
-      ],
     },
     {
       name: "4-1-4-1",
@@ -387,23 +228,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A defensive formation with four defenders, one defensive midfielder, four attacking midfielders, and one striker.",
       image: "https://example.com/images/4-1-4-1.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 90, y: 200 },
-        { x: 180, y: 200 },
-        { x: 270, y: 200 },
-        { x: 360, y: 200 },
-
-        { x: 225, y: 300 },
-
-        { x: 90, y: 400 },
-        { x: 180, y: 400 },
-        { x: 270, y: 400 },
-        { x: 360, y: 400 },
-
-        { x: 225, y: 500 },
-      ],
     },
     {
       name: "4-5-1",
@@ -411,22 +235,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A defensive formation with four defenders, five midfielders, and one striker.",
       image: "https://example.com/images/4-5-1.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 90, y: 200 },
-        { x: 180, y: 200 },
-        { x: 270, y: 200 },
-        { x: 360, y: 200 },
-
-        { x: 75, y: 350 },
-        { x: 150, y: 350 },
-        { x: 225, y: 350 },
-        { x: 300, y: 350 },
-        { x: 375, y: 350 },
-
-        { x: 225, y: 500 },
-      ],
     },
     {
       name: "5-2-3",
@@ -434,22 +242,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A defensive formation with five defenders, two defensive midfielders, and three attacking midfielders.",
       image: "https://example.com/images/5-2-3.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 75, y: 200 },
-        { x: 150, y: 200 },
-        { x: 225, y: 200 },
-        { x: 300, y: 200 },
-        { x: 375, y: 200 },
-
-        { x: 150, y: 350 },
-        { x: 300, y: 350 },
-
-        { x: 112.5, y: 500 },
-        { x: 225, y: 500 },
-        { x: 337.5, y: 500 },
-      ],
     },
     {
       name: "3-4-1-2",
@@ -457,23 +249,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A balanced formation with three defenders, four midfielders, one attacking midfielder, and two strikers.",
       image: "https://example.com/images/3-4-1-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 112.5, y: 200 },
-        { x: 225, y: 200 },
-        { x: 337.5, y: 200 },
-
-        { x: 90, y: 300 },
-        { x: 180, y: 300 },
-        { x: 270, y: 300 },
-        { x: 360, y: 300 },
-
-        { x: 225, y: 400 },
-
-        { x: 150, y: 500 },
-        { x: 300, y: 500 },
-      ],
     },
     {
       name: "4-1-2-1-2",
@@ -481,24 +256,6 @@ export const FORMATION: { 5: Preset[]; 7: Preset[]; 11: Preset[] } = {
       description:
         "A balanced formation with four defenders, one defensive midfielder, two central midfielders, one attacking midfielder, and two strikers.",
       image: "https://example.com/images/4-1-2-1-2.png",
-      positions: [
-        { x: 225, y: 50 },
-
-        { x: 90, y: 200 },
-        { x: 180, y: 200 },
-        { x: 270, y: 200 },
-        { x: 360, y: 200 },
-
-        { x: 225, y: 300 },
-
-        { x: 150, y: 400 },
-        { x: 300, y: 400 },
-
-        { x: 225, y: 500 },
-
-        { x: 150, y: 600 },
-        { x: 300, y: 600 },
-      ],
     },
   ],
 }
