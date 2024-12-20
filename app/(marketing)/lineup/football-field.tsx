@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch"
 
 export default function FootballField() {
   const [stripeWidth, setStripeWidth] = useState(20)
+  const [fieldHeight, setFieldHeight] = useState(700)
   const [patternType, setPatternType] = useState("horizontal")
   const [color1, setColor1] = useState("#4ade80")
   const [color2, setColor2] = useState("#22c55e")
@@ -37,9 +38,13 @@ export default function FootballField() {
     }
   }
 
+  const getHeight = () => {
+    return `${fieldHeight}px`
+  }
+
   const fieldStyle = {
     background: getBackgroundStyle(),
-    height: "600px",
+    height: getHeight(),
     width: "100%",
     borderRadius: "8px",
     overflow: "hidden",
@@ -71,7 +76,7 @@ export default function FootballField() {
     <div className="max-w-2xl mx-auto p-4 space-y-4">
       <h1 className="text-2xl font-bold text-center">Customizable Football Field Patterns</h1>
       <div style={fieldStyle}>
-        <Field stroke={color3} width="100%" height="700px" />
+        <Field stroke={color3} width="100%" height={`${fieldHeight}px`} />
       </div>
 
       <div className="space-y-4">
@@ -89,6 +94,11 @@ export default function FootballField() {
             <Label htmlFor="circular">Circular</Label>
           </div>
         </RadioGroup>
+        <div className="space-y-2">
+          <Label htmlFor="field-height">Field Height: {fieldHeight}px</Label>
+          <Slider id="field-height" min={700} max={800} step={1} value={[fieldHeight]} onValueChange={(value) => setFieldHeight(value[0])} />
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="stripe-width">Pattern Width: {stripeWidth}px</Label>
           <Slider id="stripe-width" min={5} max={50} step={1} value={[stripeWidth]} onValueChange={(value) => setStripeWidth(value[0])} />
