@@ -1,7 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
+import * as htmlToImage from "html-to-image"
+import { Download } from "lucide-react"
 
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -9,14 +12,15 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 
 export default function FootballField() {
-  const [stripeWidth, setStripeWidth] = useState(20)
-  const [fieldHeight, setFieldHeight] = useState(700)
-  const [patternType, setPatternType] = useState("horizontal")
-  const [color1, setColor1] = useState("#4ade80")
-  const [color2, setColor2] = useState("#22c55e")
-  const [color3, setColor3] = useState("#f5f5f5")
-  const [isPerspective, setIsPerspective] = useState(false)
-  const [perspectiveAngle, setPerspectiveAngle] = useState(30)
+  const [stripeWidth, setStripeWidth] = useState<number>(20)
+  const [fieldHeight, setFieldHeight] = useState<number>(700)
+  const [patternType, setPatternType] = useState<string>("horizontal")
+  const [color1, setColor1] = useState<string>("#b6de4a")
+  const [color2, setColor2] = useState<string>("#22c55e")
+  const [color3, setColor3] = useState<string>("#f5f5f5")
+  const [isPerspective, setIsPerspective] = useState<boolean>(false)
+  const [perspectiveAngle, setPerspectiveAngle] = useState<number>(30)
+  const pitchRef = useRef<HTMLDivElement>(null)
 
   const getBackgroundStyle = () => {
     if (patternType === "circular") {
@@ -42,6 +46,17 @@ export default function FootballField() {
     return `${fieldHeight}px`
   }
 
+  const handleDownload = async () => {
+    if (pitchRef.current) {
+      const image = await htmlToImage.toPng(pitchRef.current)
+
+      const link = document.createElement("a")
+      link.href = image
+      link.download = "football-pitch.png"
+      link.click()
+    }
+  }
+
   const fieldStyle = {
     background: getBackgroundStyle(),
     height: getHeight(),
@@ -53,9 +68,9 @@ export default function FootballField() {
     transformOrigin: "center bottom",
   }
 
-  const Field = (props: { stroke: string; height: string; width: string }) => (
+  const FieldFootball = (props: { stroke: string; height: string; width: string }) => (
     <svg width={props.width} height={props.height} viewBox="0 0 74 111">
-      <g fill="none" stroke={props.stroke} stroke-width="0.3" transform="translate(3 3)">
+      <g fill="none" stroke={props.stroke} strokeWidth="0.3" transform="translate(3 3)">
         <path id="Border" d="M 0 0 h 68 v 105 h -68 Z" />
         <path id="Centre line" d="M 0 52.5 h 68" />
         <circle id="Centre circle" r="9.15" cx="34" cy="52.5" />
@@ -75,8 +90,10 @@ export default function FootballField() {
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-4">
       <h1 className="text-2xl font-bold text-center">Customizable Football Field Patterns</h1>
-      <div style={fieldStyle}>
-        <Field stroke={color3} width="100%" height={`${fieldHeight}px`} />
+      <div ref={pitchRef}>
+        <div style={fieldStyle}>
+          <FieldFootball stroke={color3} width="100%" height={`${fieldHeight}px`} />
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -136,6 +153,10 @@ export default function FootballField() {
             </div>
           </div>
         </div>
+        <Button onClick={handleDownload} className="flex items-center space-x-2">
+          <Download className="w-4 h-4" />
+          <span>Download</span>
+        </Button>
       </div>
     </div>
   )
