@@ -27,6 +27,7 @@ export default function Lineup() {
 
   const [stripeWidth, setStripeWidth] = React.useState<number>(20)
   const [fieldHeight, setFieldHeight] = React.useState<number>(700)
+  const [fieldWidth, setFieldWidth] = React.useState<number>(450)
   const [patternType, setPatternType] = React.useState<string>("horizontal")
   const [color1, setColor1] = React.useState<string>("#b6de4a")
   const [color2, setColor2] = React.useState<string>("#22c55e")
@@ -60,26 +61,35 @@ export default function Lineup() {
 
   React.useEffect(() => {
     if (selectedPreset) {
-      setPosition(formationHelper(450, 660, selectedPreset, flip))
+      setPosition(formationHelper(fieldWidth, fieldHeight, selectedPreset, flip))
       setAthlete((a) => a.reverse())
     }
-  }, [selectedPreset, flip])
+  }, [selectedPreset, flip, fieldHeight, fieldWidth])
 
   return (
     <>
       <div id="editor-preview" ref={pitchRef} className="flex flex-col items-center justify-center bg-slate-600">
-        <FootballField
-          color1={color1}
-          color2={color2}
-          color3={color3}
-          fieldHeight={fieldHeight}
-          isPerspective={isPerspective}
-          perspectiveAngle={perspectiveAngle}
-          patternType={patternType}
-          stripeWidth={stripeWidth}
-        >
-          <Formation selectedPreset={selectedPreset} selectedPlayerCount={selectedPlayerCount} position={position} color={color} athlete={athlete} />
-        </FootballField>
+        <div className="max-w-2xl mx-auto p-4 space-y-4">
+          <FootballField
+            color1={color1}
+            color2={color2}
+            color3={color3}
+            fieldHeight={fieldHeight}
+            isPerspective={isPerspective}
+            perspectiveAngle={perspectiveAngle}
+            patternType={patternType}
+            stripeWidth={stripeWidth}
+          />
+          <Formation
+            selectedPreset={selectedPreset}
+            selectedPlayerCount={selectedPlayerCount}
+            position={position}
+            color={color}
+            athlete={athlete}
+            height={`${fieldHeight}px`}
+            width={`${fieldWidth}px`}
+          />
+        </div>
       </div>
       <div id="menu">
         <div className="flex flex-row items-center gap-2">
