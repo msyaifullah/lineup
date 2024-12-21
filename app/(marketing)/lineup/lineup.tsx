@@ -18,6 +18,8 @@ import FootballField from "./football-field"
 import { Formation } from "./formation"
 
 export default function Lineup() {
+  const [teamName, setTeamName] = React.useState<string | undefined>("Team")
+
   const [selectedPreset, setSelectedPreset] = React.useState<string | undefined>("4-4-2")
   const [selectedPlayerCount, setSelectedPlayerCount] = React.useState<string | undefined>("11")
   const [position, setPosition] = React.useState<{ x: number; y: number }[]>([])
@@ -50,12 +52,11 @@ export default function Lineup() {
     if (pitchRef.current) {
       const image = await htmlToImage.toPng(pitchRef.current)
 
-      // const link = document.createElement("a")
-      // link.href = image
-      // link.download = "football-pitch.png"
-      // link.click()
-
-      setScreenShoot(image)
+      const link = document.createElement("a")
+      link.href = image
+      link.download = "football-pitch.png"
+      link.click()
+      // setScreenShoot(image)
     }
   }
 
@@ -68,9 +69,9 @@ export default function Lineup() {
 
   return (
     <>
-      <div id="editor-preview" ref={pitchRef} className="flex flex-col items-center justify-center bg-slate-600">
-        <div className="max-w-2xl mx-auto p-4 space-y-4">
-          <div className="relative flex w-full justify-center  rounded-lg border p-10">
+      <div id="editor-preview" className="flex flex-col items-center justify-center ">
+        <div className="mx-auto max-w-2xl space-y-4 p-4">
+          <div ref={pitchRef} className="relative flex w-full justify-center  rounded-lg border bg-slate-600 p-10">
             <FootballField
               className="absolute"
               color1={color1}
@@ -93,10 +94,24 @@ export default function Lineup() {
               height={`${fieldHeight}px`}
               width={`${fieldWidth}px`}
             />
+            <div className="absolute left-10 top-10">
+              <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl" style={{ color: color }}>
+                {teamName}
+              </h2>
+              <h4 className="font-heading text-xl leading-[1.1]" style={{ color: color }}>
+                {selectedPreset}
+              </h4>
+            </div>
           </div>
         </div>
       </div>
       <div id="menu">
+        <div className="space-y-2">
+          <Label htmlFor="input-name">Input Name</Label>
+          <div className="flex items-center space-x-2">
+            <Input type="text" value={teamName} onChange={(e) => setTeamName(e.target.value)} className="grow" />
+          </div>
+        </div>
         <div className="flex flex-row items-center gap-2">
           <Label htmlFor="select-player">Select Player</Label>
           <Select
