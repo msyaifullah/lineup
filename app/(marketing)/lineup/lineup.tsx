@@ -70,25 +70,30 @@ export default function Lineup() {
     <>
       <div id="editor-preview" ref={pitchRef} className="flex flex-col items-center justify-center bg-slate-600">
         <div className="max-w-2xl mx-auto p-4 space-y-4">
-          <FootballField
-            color1={color1}
-            color2={color2}
-            color3={color3}
-            fieldHeight={fieldHeight}
-            isPerspective={isPerspective}
-            perspectiveAngle={perspectiveAngle}
-            patternType={patternType}
-            stripeWidth={stripeWidth}
-          />
-          <Formation
-            selectedPreset={selectedPreset}
-            selectedPlayerCount={selectedPlayerCount}
-            position={position}
-            color={color}
-            athlete={athlete}
-            height={`${fieldHeight}px`}
-            width={`${fieldWidth}px`}
-          />
+          <div className="relative flex w-full justify-center  rounded-lg border p-10">
+            <FootballField
+              className="absolute"
+              color1={color1}
+              color2={color2}
+              color3={color3}
+              fieldHeight={`${fieldHeight}px`}
+              fieldWidth={`${fieldWidth}px`}
+              isPerspective={isPerspective}
+              perspectiveAngle={perspectiveAngle}
+              patternType={patternType}
+              stripeWidth={stripeWidth}
+            />
+
+            <Formation
+              selectedPreset={selectedPreset}
+              selectedPlayerCount={selectedPlayerCount}
+              position={position}
+              color={color}
+              athlete={athlete}
+              height={`${fieldHeight}px`}
+              width={`${fieldWidth}px`}
+            />
+          </div>
         </div>
       </div>
       <div id="menu">

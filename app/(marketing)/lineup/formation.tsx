@@ -6,6 +6,7 @@ import { Athlete, PLAYERS } from "./constant"
 import DraggableDiv from "./node"
 
 interface FormationProps extends React.HTMLAttributes<HTMLFormElement> {
+  className?: string
   selectedPlayerCount: string | undefined
   selectedPreset: string | undefined
   position: { x: number; y: number }[]
@@ -17,7 +18,7 @@ interface FormationProps extends React.HTMLAttributes<HTMLFormElement> {
 
 export function Formation({ className, ...props }: FormationProps) {
   return (
-    <div className="flex w-full justify-center  rounded-lg border p-10 ">
+    <div className={className}>
       <div className="relative rounded-lg border-2 border-gray-300" style={{ color: props.color, height: props.height, width: props.width }}>
         {props.position.length > 0 && props.selectedPlayerCount && (
           <>

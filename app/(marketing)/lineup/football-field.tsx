@@ -2,18 +2,26 @@
 
 interface FootballFieldProps extends React.HTMLAttributes<HTMLFormElement> {
   className?: string
-
   patternType: string
   color1: string
   color2: string
   color3: string
   stripeWidth: number
-  fieldHeight: number
+  fieldHeight: string
+  fieldWidth: string
   isPerspective: boolean
   perspectiveAngle: number
 }
 
 export default function FootballField({ className, ...props }: FootballFieldProps) {
+  const getHeight = () => {
+    return `${props.fieldHeight}`
+  }
+
+  const getWidth = () => {
+    return `${props.fieldWidth}`
+  }
+
   const getBackgroundStyle = () => {
     if (props.patternType === "circular") {
       return `repeating-radial-gradient(
@@ -34,14 +42,12 @@ export default function FootballField({ className, ...props }: FootballFieldProp
     }
   }
 
-  const getHeight = () => {
-    return `${props.fieldHeight}px`
-  }
+  
 
   const fieldStyle = {
     background: getBackgroundStyle(),
     height: getHeight(),
-    width: "100%",
+    width: getWidth(),
     borderRadius: "8px",
     overflow: "hidden",
     boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
@@ -69,8 +75,8 @@ export default function FootballField({ className, ...props }: FootballFieldProp
   )
 
   return (
-    <div style={fieldStyle}>
-      <FieldFootball stroke={props.color3} width="100%" height={`${props.fieldHeight}px`} />
+    <div className={className} style={fieldStyle}>
+      <FieldFootball stroke={props.color3} width={`${getWidth()}`} height={`${getHeight()}`} />
     </div>
   )
 }
