@@ -9,10 +9,17 @@ function Model(props) {
   const scroll = useScroll()
   const { nodes, materials, animations } = useGLTF("/jump-transformed.glb")
   const { ref, actions } = useAnimations(animations)
+<<<<<<< HEAD
+  useEffect(() => void (actions.jump!.reset().play().paused = true), [actions.jump])
+  useFrame(
+    () => (actions.jump!.time = actions.jump!.getClip().duration * scroll.offset)
+  )
+=======
 
   useEffect(() => void (actions.jump!.reset().play().paused = true), [])
 
   useFrame(() => (actions.jump!.time = actions.jump!.getClip().duration * scroll.offset))
+>>>>>>> main
   return (
     <group {...props} ref={ref}>
       <primitive object={nodes.mixamorigHips} />
@@ -38,7 +45,15 @@ export default function Counter() {
   return (
     <div className="fixed top-0 z-10">
       <div className="h-dvh w-dvw">
+<<<<<<< HEAD
+        <Canvas
+          shadows
+          gl={{ antialias: false }}
+          camera={{ position: [1, 0.5, 2.5], fov: 50 }}
+        >
+=======
         <Canvas shadows gl={{ antialias: false }} camera={{ position: [1, 0.5, 2.5], fov: 50 }}>
+>>>>>>> main
           <color attach="background" args={["#f0f0f0"]} />
           <fog attach="fog" args={["#f0f0f0", 0, 20]} />
           <ambientLight intensity={0.5} />

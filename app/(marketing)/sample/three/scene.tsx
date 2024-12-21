@@ -35,7 +35,7 @@ export function Sudo() {
     }
     wander()
     return () => clearTimeout(timeout)
-  }, [])
+  }, [api])
 
   return (
     <>
@@ -79,7 +79,7 @@ export function Camera() {
     }
     wander()
     return () => clearTimeout(timeout)
-  }, [])
+  }, [api])
   return (
     <a.group position={[-0.58, 0.83, -0.03]} rotation={[Math.PI / 2, 0, 0.47]} {...spring}>
       <mesh
