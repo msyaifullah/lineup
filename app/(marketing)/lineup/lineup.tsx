@@ -86,7 +86,7 @@ export default function Lineup() {
   return (
     <>
       <div id="editor-preview" className="flex flex-col items-center justify-center ">
-        <div className="mx-auto max-w-2xl space-x-4 p-4 flex">
+        <div className="mx-auto flex max-w-2xl space-x-4 p-4">
           <div ref={pitchRef} className="relative flex w-full justify-center  rounded-lg border bg-slate-600 p-10">
             <FootballField
               className="absolute"
@@ -120,11 +120,11 @@ export default function Lineup() {
               </h4>
             </div>
           </div>
-          <div className="flex flex-col w-full justify-center  rounded-lg border bg-slate-600 p-10">
+          <div className="flex w-full flex-col justify-center  rounded-lg border bg-slate-600 p-10">
             {athlete.length <= parseInt(selectedPlayerCount!) && <Button onClick={handleAddAthlete}>+</Button>}
             {athlete.map((at) => (
               <div className="flex flex-row">
-                <div className="h-10 w-10 rounded-full bg-slate-200" />
+                <div className="size-10 rounded-full bg-slate-200" />
                 <div className="flex flex-col items-start justify-center px-2">
                   <div className="text-sm">{at.number}</div>
                   <div className="text-sm">{at.name}</div>

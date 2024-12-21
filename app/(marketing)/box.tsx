@@ -38,6 +38,7 @@ export default function Counter() {
   return (
     <div className="fixed top-0 z-10">
       <div className="h-dvh w-dvw">
+        Sportengine HEAD
         <Canvas shadows gl={{ antialias: false }} camera={{ position: [1, 0.5, 2.5], fov: 50 }}>
           <color attach="background" args={["#f0f0f0"]} />
           <fog attach="fog" args={["#f0f0f0", 0, 20]} />
