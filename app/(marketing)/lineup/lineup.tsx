@@ -60,6 +60,22 @@ export default function Lineup() {
     }
   }
 
+  const handleDelete = async () => {
+    setAthlete((prevData) => {
+      const newData = [...prevData]
+      newData.pop()
+      return newData
+    })
+  }
+
+  const handleAddAthlete = (): void => {
+    const newAthlete: Athlete = {
+      name: "Player",
+      number: parseInt("0"),
+    }
+    setAthlete((prevstate) => [...prevstate, newAthlete])
+  }
+
   React.useEffect(() => {
     if (selectedPreset) {
       setPosition(formationHelper(fieldWidth, fieldHeight, selectedPreset, flip))
@@ -70,7 +86,7 @@ export default function Lineup() {
   return (
     <>
       <div id="editor-preview" className="flex flex-col items-center justify-center ">
-        <div className="mx-auto max-w-2xl space-y-4 p-4">
+        <div className="mx-auto max-w-2xl space-x-4 p-4 flex">
           <div ref={pitchRef} className="relative flex w-full justify-center  rounded-lg border bg-slate-600 p-10">
             <FootballField
               className="absolute"
@@ -91,6 +107,7 @@ export default function Lineup() {
               position={position}
               color={color}
               athlete={athlete}
+              setAthlete={setAthlete}
               height={`${fieldHeight}px`}
               width={`${fieldWidth}px`}
             />
@@ -102,6 +119,19 @@ export default function Lineup() {
                 {selectedPreset}
               </h4>
             </div>
+          </div>
+          <div className="flex flex-col w-full justify-center  rounded-lg border bg-slate-600 p-10">
+            {athlete.length <= parseInt(selectedPlayerCount!) && <Button onClick={handleAddAthlete}>+</Button>}
+            {athlete.map((at) => (
+              <div className="flex flex-row">
+                <div className="h-10 w-10 rounded-full bg-slate-200" />
+                <div className="flex flex-col items-start justify-center px-2">
+                  <div className="text-sm">{at.number}</div>
+                  <div className="text-sm">{at.name}</div>
+                </div>
+                <Button onClick={handleDelete}>X</Button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
