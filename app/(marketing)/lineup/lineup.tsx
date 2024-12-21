@@ -67,7 +67,7 @@ export default function Lineup() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center">
+      <div id="editor-preview" ref={pitchRef} className="flex flex-col items-center justify-center bg-slate-600">
         <FootballField
           color1={color1}
           color2={color2}
@@ -77,48 +77,25 @@ export default function Lineup() {
           perspectiveAngle={perspectiveAngle}
           patternType={patternType}
           stripeWidth={stripeWidth}
-          pitchRef={pitchRef}
         >
           <Formation selectedPreset={selectedPreset} selectedPlayerCount={selectedPlayerCount} position={position} color={color} athlete={athlete} />
         </FootballField>
       </div>
-      <div className="flex flex-row items-center gap-2">
-        <Label htmlFor="select-player">Select Player</Label>
-        <Select
-          defaultValue={selectedPlayerCount}
-          onValueChange={(value) => {
-            setPlayer(value)
-            setPosition(FORMATION[Number(selectedPlayerCount)].find((preset) => preset.name === value)?.positions || [])
-          }}
-        >
-          <SelectTrigger className="mb-2 w-[180px]">
-            <SelectValue placeholder="Select Player..." />
-          </SelectTrigger>
-          <SelectContent>
-            {PLAYERS.map((preset) => (
-              <SelectItem key={preset.name} value={preset.name}>
-                {preset.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {selectedPlayerCount && (
+      <div id="menu">
         <div className="flex flex-row items-center gap-2">
-          <Label htmlFor="select-player">Select Formation</Label>
+          <Label htmlFor="select-player">Select Player</Label>
           <Select
-            defaultValue={selectedPreset}
+            defaultValue={selectedPlayerCount}
             onValueChange={(value) => {
-              setPreset(value)
+              setPlayer(value)
               setPosition(FORMATION[Number(selectedPlayerCount)].find((preset) => preset.name === value)?.positions || [])
             }}
           >
-            <SelectTrigger className=" mb-2 w-[180px]">
-              <SelectValue placeholder="Select Formation..." />
+            <SelectTrigger className="mb-2 w-[180px]">
+              <SelectValue placeholder="Select Player..." />
             </SelectTrigger>
             <SelectContent>
-              {FORMATION[selectedPlayerCount].map((preset) => (
+              {PLAYERS.map((preset) => (
                 <SelectItem key={preset.name} value={preset.name}>
                   {preset.label}
                 </SelectItem>
@@ -126,85 +103,109 @@ export default function Lineup() {
             </SelectContent>
           </Select>
         </div>
-      )}
 
-      <div className="flex flex-row items-center gap-2">
-        <Label htmlFor="color-background">color background</Label>
-        <ColorPicker
-          id="color-background"
-          onChange={(v) => {
-            setColor(v)
-          }}
-          value={color}
-        />
-      </div>
-      <div className="flex flex-row items-center gap-2">
-        <Label htmlFor="airplane-mode">Flip</Label>
-        <Switch id="airplane-mode" checked={flip} onCheckedChange={setFlip} />
-      </div>
-      <div className="space-y-4">
-        <RadioGroup value={patternType} onValueChange={setPatternType} className="flex flex-wrap gap-4">
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="horizontal" id="horizontal" />
-            <Label htmlFor="horizontal">Horizontal</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="vertical" id="vertical" />
-            <Label htmlFor="vertical">Vertical</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="circular" id="circular" />
-            <Label htmlFor="circular">Circular</Label>
-          </div>
-        </RadioGroup>
-        <div className="space-y-2">
-          <Label htmlFor="field-height">Field Height: {fieldHeight}px</Label>
-          <Slider id="field-height" min={700} max={800} step={1} value={[fieldHeight]} onValueChange={(value) => setFieldHeight(value[0])} />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="stripe-width">Pattern Width: {stripeWidth}px</Label>
-          <Slider id="stripe-width" min={5} max={50} step={1} value={[stripeWidth]} onValueChange={(value) => setStripeWidth(value[0])} />
-        </div>
-        <div className="flex items-center space-x-2">
-          <Switch id="perspective" checked={isPerspective} onCheckedChange={setIsPerspective} />
-          <Label htmlFor="perspective">Enable Perspective</Label>
-        </div>
-        {isPerspective && (
-          <div className="space-y-2">
-            <Label htmlFor="perspective-angle">Perspective Angle: {perspectiveAngle}°</Label>
-            <Slider id="perspective-angle" min={0} max={60} step={1} value={[perspectiveAngle]} onValueChange={(value) => setPerspectiveAngle(value[0])} />
+        {selectedPlayerCount && (
+          <div className="flex flex-row items-center gap-2">
+            <Label htmlFor="select-player">Select Formation</Label>
+            <Select
+              defaultValue={selectedPreset}
+              onValueChange={(value) => {
+                setPreset(value)
+                setPosition(FORMATION[Number(selectedPlayerCount)].find((preset) => preset.name === value)?.positions || [])
+              }}
+            >
+              <SelectTrigger className=" mb-2 w-[180px]">
+                <SelectValue placeholder="Select Formation..." />
+              </SelectTrigger>
+              <SelectContent>
+                {FORMATION[selectedPlayerCount].map((preset) => (
+                  <SelectItem key={preset.name} value={preset.name}>
+                    {preset.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="color1">Color 1</Label>
-            <div className="flex items-center space-x-2">
-              <Input id="color1" type="color" value={color1} onChange={(e) => setColor1(e.target.value)} className="w-12 h-12 p-1 rounded" />
-              <Input type="text" value={color1} onChange={(e) => setColor1(e.target.value)} className="flex-grow" />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="color2">Color 2</Label>
-            <div className="flex items-center space-x-2">
-              <Input id="color2" type="color" value={color2} onChange={(e) => setColor2(e.target.value)} className="w-12 h-12 p-1 rounded" />
-              <Input type="text" value={color2} onChange={(e) => setColor2(e.target.value)} className="flex-grow" />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="color3">Color 3</Label>
-            <div className="flex items-center space-x-2">
-              <Input id="color3" type="color" value={color3} onChange={(e) => setColor3(e.target.value)} className="w-12 h-12 p-1 rounded" />
-              <Input type="text" value={color3} onChange={(e) => setColor3(e.target.value)} className="flex-grow" />
-            </div>
-          </div>
+
+        <div className="flex flex-row items-center gap-2">
+          <Label htmlFor="color-background">color background</Label>
+          <ColorPicker
+            id="color-background"
+            onChange={(v) => {
+              setColor(v)
+            }}
+            value={color}
+          />
         </div>
-        <Button onClick={handleDownload} className="flex items-center space-x-2">
-          <Download className="w-4 h-4" />
-          <span>Download</span>
-        </Button>
+        <div className="flex flex-row items-center gap-2">
+          <Label htmlFor="airplane-mode">Flip</Label>
+          <Switch id="airplane-mode" checked={flip} onCheckedChange={setFlip} />
+        </div>
+        <div className="space-y-4">
+          <RadioGroup value={patternType} onValueChange={setPatternType} className="flex flex-wrap gap-4">
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="horizontal" id="horizontal" />
+              <Label htmlFor="horizontal">Horizontal</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="vertical" id="vertical" />
+              <Label htmlFor="vertical">Vertical</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="circular" id="circular" />
+              <Label htmlFor="circular">Circular</Label>
+            </div>
+          </RadioGroup>
+          <div className="space-y-2">
+            <Label htmlFor="field-height">Field Height: {fieldHeight}px</Label>
+            <Slider id="field-height" min={700} max={800} step={1} value={[fieldHeight]} onValueChange={(value) => setFieldHeight(value[0])} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="stripe-width">Pattern Width: {stripeWidth}px</Label>
+            <Slider id="stripe-width" min={5} max={50} step={1} value={[stripeWidth]} onValueChange={(value) => setStripeWidth(value[0])} />
+          </div>
+          <div className="flex items-center space-x-2">
+            <Switch id="perspective" checked={isPerspective} onCheckedChange={setIsPerspective} />
+            <Label htmlFor="perspective">Enable Perspective</Label>
+          </div>
+          {isPerspective && (
+            <div className="space-y-2">
+              <Label htmlFor="perspective-angle">Perspective Angle: {perspectiveAngle}°</Label>
+              <Slider id="perspective-angle" min={0} max={60} step={1} value={[perspectiveAngle]} onValueChange={(value) => setPerspectiveAngle(value[0])} />
+            </div>
+          )}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="color1">Color 1</Label>
+              <div className="flex items-center space-x-2">
+                <Input id="color1" type="color" value={color1} onChange={(e) => setColor1(e.target.value)} className="size-12 rounded p-1" />
+                <Input type="text" value={color1} onChange={(e) => setColor1(e.target.value)} className="grow" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="color2">Color 2</Label>
+              <div className="flex items-center space-x-2">
+                <Input id="color2" type="color" value={color2} onChange={(e) => setColor2(e.target.value)} className="size-12 rounded p-1" />
+                <Input type="text" value={color2} onChange={(e) => setColor2(e.target.value)} className="grow" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="color3">Color 3</Label>
+              <div className="flex items-center space-x-2">
+                <Input id="color3" type="color" value={color3} onChange={(e) => setColor3(e.target.value)} className="size-12 rounded p-1" />
+                <Input type="text" value={color3} onChange={(e) => setColor3(e.target.value)} className="grow" />
+              </div>
+            </div>
+          </div>
+          <Button onClick={handleDownload} className="flex items-center space-x-2">
+            <Download className="size-4" />
+            <span>Download</span>
+          </Button>
+        </div>
       </div>
-      <div>{screenShoot && <img src={screenShoot} />}</div>
+      <div id="editor-shown"> {screenShoot && <img src={screenShoot} />}</div>
     </>
   )
 }

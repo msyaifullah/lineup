@@ -13,7 +13,6 @@ interface FootballFieldProps extends React.HTMLAttributes<HTMLFormElement> {
   fieldHeight: number
   isPerspective: boolean
   perspectiveAngle: number
-  pitchRef: React.RefObject<HTMLDivElement>
 }
 
 export default function FootballField({ className, ...props }: FootballFieldProps) {
@@ -73,12 +72,9 @@ export default function FootballField({ className, ...props }: FootballFieldProp
 
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-center">Customizable Football Field Patterns</h1>
-      <div ref={props.pitchRef}>
-        <div>{props.children}</div>
-        <div style={fieldStyle}>
-          <FieldFootball stroke={props.color3} width="100%" height={`${props.fieldHeight}px`} />
-        </div>
+      <div>{props.children}</div>
+      <div style={fieldStyle}>
+        <FieldFootball stroke={props.color3} width="100%" height={`${props.fieldHeight}px`} />
       </div>
     </div>
   )
