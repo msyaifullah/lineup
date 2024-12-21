@@ -14,6 +14,7 @@ import {
 import { Canvas } from "@react-three/fiber"
 
 function Model({ url }) {
+  //@ts-ignore
   const { nodes } = useGLTF(url)
   return (
     <group rotation={[-Math.PI / 2, 0, 0]} position={[0, -7, 0]} scale={7}>
