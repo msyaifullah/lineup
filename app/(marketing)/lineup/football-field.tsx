@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { ReactNode, useRef, useState } from "react"
 import * as htmlToImage from "html-to-image"
 import { Download } from "lucide-react"
 
@@ -11,7 +11,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 
-export default function FootballField() {
+interface FootballFieldProps extends React.HTMLAttributes<HTMLFormElement> {
+  children?: ReactNode
+}
+
+export default function FootballField({ className, ...props }: FootballFieldProps) {
   const [stripeWidth, setStripeWidth] = useState<number>(20)
   const [fieldHeight, setFieldHeight] = useState<number>(700)
   const [patternType, setPatternType] = useState<string>("horizontal")
@@ -21,6 +25,8 @@ export default function FootballField() {
   const [isPerspective, setIsPerspective] = useState<boolean>(false)
   const [perspectiveAngle, setPerspectiveAngle] = useState<number>(30)
   const pitchRef = useRef<HTMLDivElement>(null)
+
+  const [screenShoot, setScreenShoot] = useState<string | null>(null)
 
   const getBackgroundStyle = () => {
     if (patternType === "circular") {
@@ -50,10 +56,12 @@ export default function FootballField() {
     if (pitchRef.current) {
       const image = await htmlToImage.toPng(pitchRef.current)
 
-      const link = document.createElement("a")
-      link.href = image
-      link.download = "football-pitch.png"
-      link.click()
+      // const link = document.createElement("a")
+      // link.href = image
+      // link.download = "football-pitch.png"
+      // link.click()
+
+      setScreenShoot(image)
     }
   }
 
@@ -91,6 +99,7 @@ export default function FootballField() {
     <div className="max-w-2xl mx-auto p-4 space-y-4">
       <h1 className="text-2xl font-bold text-center">Customizable Football Field Patterns</h1>
       <div ref={pitchRef}>
+        <div>{props.children}</div>
         <div style={fieldStyle}>
           <FieldFootball stroke={color3} width="100%" height={`${fieldHeight}px`} />
         </div>
@@ -158,6 +167,8 @@ export default function FootballField() {
           <span>Download</span>
         </Button>
       </div>
+
+      <div>{screenShoot && <img src={screenShoot} />}</div>
     </div>
   )
 }
