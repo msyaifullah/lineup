@@ -3,7 +3,7 @@ import Counter from "./box"
 async function getGitHubStars(): Promise<string | null> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/msyaifullah/beda",
+      "https://api.github.com/repos/msyaifullah/sportengine",
       {
         headers: {
           Accept: "application/vnd.github+json",

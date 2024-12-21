@@ -31,10 +31,10 @@ export default function ProductsPage() {
 
       <div className="mx-auto flex w-full max-w-[58rem] flex-col gap-4">
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:leading-7">
-          Beda always in development.{" "}
+          Sportengine always in development.{" "}
           <strong>
             You can always comeback to seeing the progress or throw new
-            Error("")
+            Error(&quot;&quot;)
           </strong>
         </p>
       </div>
