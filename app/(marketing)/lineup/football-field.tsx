@@ -52,7 +52,8 @@ export default function FootballField({ className, ...props }: FootballFieldProp
     overflow: "hidden",
     boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
     transform: props.isPerspective ? `perspective(1000px) rotateX(${props.perspectiveAngle}deg)` : "none",
-    transformOrigin: "center bottom",
+    // this is make transform origin stay as it is
+    // transformOrigin: "center bottom",
   }
 
   const FieldFootball = (props: { stroke: string; height: string; width: string }) => (

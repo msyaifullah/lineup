@@ -11,10 +11,10 @@ interface FormationProps extends React.HTMLAttributes<HTMLFormElement> {
   selectedPreset: string | undefined
   position: { x: number; y: number }[]
   color: string
-  athlete: Athlete[]
-  setAthlete: React.Dispatch<React.SetStateAction<Athlete[]>>  
   width: string
   height: string
+  athlete: Athlete[]
+  setAthlete: React.Dispatch<React.SetStateAction<Athlete[]>>  
 }
 
 export function Formation({ className, ...props }: FormationProps) {
@@ -24,7 +24,7 @@ export function Formation({ className, ...props }: FormationProps) {
         {props.position.length > 0 && props.selectedPlayerCount && (
           <>
             {PLAYERS.find((preset) => preset.name === props.selectedPlayerCount)?.player.map((value) => (
-              <DraggableDiv value={value} position={props.position} athlete={props.athlete} setAthlete={props.setAthlete}/>
+              <DraggableDiv value={value} position={props.position} athlete={props.athlete} setAthlete={props.setAthlete} />
             ))}
           </>
         )}

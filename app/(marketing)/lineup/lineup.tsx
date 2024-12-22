@@ -4,6 +4,7 @@ import * as React from "react"
 import * as htmlToImage from "html-to-image"
 import { Download } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ColorPicker } from "@/components/ui/color-picker"
 import { Input } from "@/components/ui/input"
@@ -13,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 
-import { Athlete, FORMATION, formationHelper, PLAYERS } from "./constant"
+import { Athlete, FORMATION, formationHelper, GET_ATHLETE, PLAYERS } from "./constant"
 import FootballField from "./football-field"
 import { Formation } from "./formation"
 
@@ -26,6 +27,7 @@ export default function Lineup() {
   const [color, setColor] = React.useState<string>("#ff0f0f")
   const [flip, setFlip] = React.useState<boolean>(false)
   const [athlete, setAthlete] = React.useState<Athlete[]>([])
+  const [substitute, setSubstitute] = React.useState<Athlete[]>([])
 
   const [stripeWidth, setStripeWidth] = React.useState<number>(20)
   const [fieldHeight, setFieldHeight] = React.useState<number>(700)
@@ -35,7 +37,7 @@ export default function Lineup() {
   const [color2, setColor2] = React.useState<string>("#22c55e")
   const [color3, setColor3] = React.useState<string>("#f5f5f5")
   const [isPerspective, setIsPerspective] = React.useState<boolean>(false)
-  const [perspectiveAngle, setPerspectiveAngle] = React.useState<number>(30)
+  const [perspectiveAngle, setPerspectiveAngle] = React.useState<number>(0)
   const pitchRef = React.useRef<HTMLDivElement>(null)
 
   const [screenShoot, setScreenShoot] = React.useState<string | null>(null)
@@ -73,7 +75,7 @@ export default function Lineup() {
       name: "Player",
       number: parseInt("0"),
     }
-    setAthlete((prevstate) => [...prevstate, newAthlete])
+    setSubstitute((prevstate) => [...prevstate, newAthlete])
   }
 
   React.useEffect(() => {
@@ -83,11 +85,20 @@ export default function Lineup() {
     }
   }, [selectedPreset, flip, fieldHeight, fieldWidth])
 
+  React.useEffect(() => {
+    if (selectedPlayerCount) {
+      setAthlete(GET_ATHLETE(parseInt(selectedPlayerCount!)))
+    }
+  }, [selectedPlayerCount])
+
   return (
     <>
       <div id="editor-preview" className="flex flex-col items-center justify-center ">
         <div className="mx-auto flex max-w-2xl space-x-4 p-4">
-          <div ref={pitchRef} className="relative flex w-full justify-center  rounded-lg border bg-slate-600 p-10">
+          <div
+            ref={pitchRef}
+            className={cn("relative flex w-full justify-center rounded-lg border p-10", "bg-gradient-to-t from-slate-700 from-10% via-slate-400 via-30% to-slate-900 to-90%")}
+          >
             <FootballField
               className="absolute"
               color1={color1}
@@ -112,17 +123,28 @@ export default function Lineup() {
               width={`${fieldWidth}px`}
             />
             <div className="absolute left-10 top-10">
-              <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl" style={{ color: color }}>
-                {teamName}
+              <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl italic" style={{ color: color }}>
+                {teamName}&nbsp;
               </h2>
               <h4 className="font-heading text-xl leading-[1.1]" style={{ color: color }}>
-                {selectedPreset}
+                {selectedPreset}&nbsp;
               </h4>
             </div>
           </div>
-          <div className="flex w-full flex-col justify-center  rounded-lg border bg-slate-600 p-10">
+          <div className="flex w-full flex-col  rounded-lg border bg-slate-600 p-10">
             {athlete.length <= parseInt(selectedPlayerCount!) && <Button onClick={handleAddAthlete}>+</Button>}
             {athlete.map((at) => (
+              <div className="flex flex-row">
+                <div className="size-10 rounded-full bg-slate-200" />
+                <div className="flex flex-col items-start justify-center px-2">
+                  <div className="text-sm">{at.number}</div>
+                  <div className="text-sm">{at.name}</div>
+                </div>
+                <Button onClick={handleDelete}>X</Button>
+              </div>
+            ))}
+
+            {substitute.map((at) => (
               <div className="flex flex-row">
                 <div className="size-10 rounded-full bg-slate-200" />
                 <div className="flex flex-col items-start justify-center px-2">
