@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { defineChain, getContract, hexToBigInt, NFT, stringToHex } from "thirdweb"
-import { ethereum } from "thirdweb/chains"
+import { defineChain, estimateGas, getContract, hexToBigInt, NFT, stringToHex } from "thirdweb"
 import { burn, mintTo } from "thirdweb/extensions/erc721"
 import { ConnectButton, ThirdwebProvider, useActiveAccount, useSendTransaction, useWalletBalance } from "thirdweb/react"
 import { createWallet, inAppWallet } from "thirdweb/wallets"
@@ -42,7 +41,7 @@ function NFTManagement() {
 
   const contract = getContract({
     address: NFT_CONTRACT_ADDRESS,
-    chain: ethereum,
+    chain: chain,
     client,
   })
 
@@ -65,23 +64,40 @@ function NFTManagement() {
   const [isMinting, setIsMinting] = useState<boolean>(false)
   const [isBurning, setIsBurning] = useState<boolean>(false)
 
+  const handleEstimationGas = async () => {
+    const transaction = mintTo({
+      contract,
+      to: tokenIdToMint,
+      nft: {
+        name: "NFT Name",
+        description: "NFT Description",
+        image: "https://example.com/image.png",
+        properties: {
+          rarity: "Common",
+        },
+      },
+    })
+    const gasEstimate = await estimateGas({ transaction })
+    console.log("estmated gas used", gasEstimate)
+  }
+
   const handleMint = async () => {
     if (!address) return
     try {
       setIsMinting(true)
-        const transaction = mintTo({
-          contract,
-          to: tokenIdToMint,
-          nft: {
-            name: "NFT Name",
-            description: "NFT Description",
-            image: "https://example.com/image.png",
-            properties: {
-              rarity: "Common",
-            },
+      const transaction = mintTo({
+        contract,
+        to: tokenIdToMint,
+        nft: {
+          name: "NFT Name",
+          description: "NFT Description",
+          image: "https://example.com/image.png",
+          properties: {
+            rarity: "Common",
           },
-        })
-        sendTx(transaction)
+        },
+      })
+      sendTx(transaction)
       console.log(`Minted NFT with token ID ${tokenIdToMint}`)
       setTokenIdToMint("")
       setIsMinting(false)
@@ -92,13 +108,15 @@ function NFTManagement() {
 
   const handleBurn = async () => {
     try {
-      //   const transaction = burn({
-      //     contract,
-      //     tokenId: hexToBigInt(stringToHex(tokenIdToBurn)),
-      //   })
-      //   sendTx(transaction)
+      setIsBurning(true)
+      const transaction = burn({
+        contract,
+        tokenId: BigInt(tokenIdToBurn),
+      })
+      sendTx(transaction)
       console.log(`Burned NFT with token ID ${tokenIdToBurn}`)
       setTokenIdToBurn("")
+      setIsBurning(false)
     } catch (error) {
       console.error("Failed to burn NFT:", error)
     }
@@ -149,10 +167,11 @@ function NFTManagement() {
                 <Input id="tokenIdToMint" value={tokenIdToMint} onChange={(e) => setTokenIdToMint(e.target.value)} placeholder="Enter token ID to mint" />
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="justify-between">
               <Button onClick={handleMint} disabled={isMinting}>
                 {isMinting ? "Minting..." : "Mint NFT"}
               </Button>
+              <Button onClick={handleEstimationGas}>Estimate gass check on console</Button>
             </CardFooter>
           </Card>
 
