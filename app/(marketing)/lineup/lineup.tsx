@@ -121,6 +121,8 @@ export default function Lineup() {
               setAthlete={setAthlete}
               height={`${fieldHeight}px`}
               width={`${fieldWidth}px`}
+              perspectiveAngle={perspectiveAngle}
+              heightOri={fieldHeight}
             />
             <div className="absolute left-10 top-10">
               <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl italic" style={{ color: color }}>

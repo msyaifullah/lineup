@@ -13,6 +13,8 @@ interface FormationProps extends React.HTMLAttributes<HTMLFormElement> {
   color: string
   width: string
   height: string
+  perspectiveAngle: number
+  heightOri: number
   athlete: Athlete[]
   setAthlete: React.Dispatch<React.SetStateAction<Athlete[]>>  
 }
@@ -24,7 +26,9 @@ export function Formation({ className, ...props }: FormationProps) {
         {props.position.length > 0 && props.selectedPlayerCount && (
           <>
             {PLAYERS.find((preset) => preset.name === props.selectedPlayerCount)?.player.map((value) => (
-              <DraggableDiv value={value} position={props.position} athlete={props.athlete} setAthlete={props.setAthlete} />
+              <DraggableDiv value={value} position={props.position} athlete={props.athlete} setAthlete={props.setAthlete} 
+              height={props.heightOri}
+              perspectiveAngle={props.perspectiveAngle}/>
             ))}
           </>
         )}

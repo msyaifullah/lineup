@@ -12,6 +12,8 @@ import { Athlete } from "./constant"
 
 interface DraggableDivProps {
   value: number
+  perspectiveAngle: number
+  height: number
   position: { x: number; y: number }[]
   athlete: Athlete[]
   setAthlete: React.Dispatch<React.SetStateAction<Athlete[]>>
@@ -22,7 +24,48 @@ interface Coordinates {
   y: number
 }
 
-const DraggableDiv: React.FC<DraggableDivProps> = ({ value, position, athlete, setAthlete }) => {
+/**
+ * Calculates the position y based on the given rotation angle and perspective,
+ * with the position calculation proportional to the element's height.
+ *
+ * @param rotationX - The rotation angle in degrees on the X-axis.
+ * @param perspective - The perspective distance in pixels.
+ * @param originalY - The original y-position of the element.
+ * @param elementHeight - The height of the element.
+ * @param containerHeight - The height of the container.
+ *
+ * @returns The calculated y-position.
+ */
+function calculateYPosition(rotationX: number, perspective: number, originalY: number, elementHeight: number, containerHeight: number): number {
+  // Convert rotation angle from degrees to radians
+  const angleRadians = (rotationX * Math.PI) / 180
+
+  // Calculate the distance the element moves along the Z-axis due to rotation
+  const zDistance = perspective * Math.tan(angleRadians)
+
+  // Determine the direction of y-movement based on relative position
+  const isAboveHalfHeight = originalY < containerHeight / 2
+
+  // Calculate the element's relative position within the container
+  const relativePosition = isAboveHalfHeight ? originalY / containerHeight: containerHeight / originalY
+
+  // Calculate the y-movement based on relative position and element height
+  const yMovement = zDistance * Math.sin(angleRadians) * (relativePosition / 5)
+
+  // Calculate the new y-position based on direction and y-movement
+  let newY: number
+  if (!isAboveHalfHeight) {
+    // If above half height, move y down
+    newY = originalY + yMovement
+  } else {
+    // If below half height, move y up
+    newY = originalY - yMovement
+  }
+
+  return newY
+}
+
+const DraggableDiv: React.FC<DraggableDivProps> = ({ value, position, athlete, perspectiveAngle, height, setAthlete }) => {
   const divRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = React.useState<boolean>(false)
   const [name, setName] = React.useState<string>("")
@@ -39,6 +82,15 @@ const DraggableDiv: React.FC<DraggableDivProps> = ({ value, position, athlete, s
       setOpen(false)
     }
   }
+
+  React.useEffect(() => {
+    if (perspectiveAngle) {
+      const y = calculateYPosition(perspectiveAngle, 1000, position[value].y, 700, 700)
+      setPos((prev) => {
+        return { ...prev, y: y }
+      })
+    }
+  }, [perspectiveAngle])
 
   return (
     <Dialog
