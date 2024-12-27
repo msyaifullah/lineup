@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { defineChain, estimateGas, getContract, hexToBigInt, NFT, stringToHex } from "thirdweb"
+import { defineChain, estimateGas, getContract, NFT } from "thirdweb"
 import { burn, mintTo } from "thirdweb/extensions/erc721"
 import { ConnectButton, ThirdwebProvider, useActiveAccount, useSendTransaction, useWalletBalance } from "thirdweb/react"
 import { createWallet, inAppWallet } from "thirdweb/wallets"
@@ -57,7 +57,7 @@ function NFTManagement() {
 
   const { mutate: sendTx, data: transactionResult } = useSendTransaction()
 
-  const [tokenIdToMint, setTokenIdToMint] = useState<string>("")
+  const [tokenAddressToMint, setTokenAddressToMint] = useState<string>("")
   const [tokenIdToBurn, setTokenIdToBurn] = useState<string>("")
   const [ownedNFTs, setOwnedNFTs] = useState<NFT[]>([])
   const [isLoadingNFTs, setIsLoadingNFTs] = useState<boolean>(false)
@@ -67,7 +67,7 @@ function NFTManagement() {
   const handleEstimationGas = async () => {
     const transaction = mintTo({
       contract,
-      to: tokenIdToMint,
+      to: tokenAddressToMint,
       nft: {
         name: "NFT Name",
         description: "NFT Description",
@@ -87,7 +87,7 @@ function NFTManagement() {
       setIsMinting(true)
       const transaction = mintTo({
         contract,
-        to: tokenIdToMint,
+        to: tokenAddressToMint,
         nft: {
           name: "NFT Name",
           description: "NFT Description",
@@ -98,8 +98,8 @@ function NFTManagement() {
         },
       })
       sendTx(transaction)
-      console.log(`Minted NFT with token ID ${tokenIdToMint}`)
-      setTokenIdToMint("")
+      console.log(`Minted NFT with token ID ${tokenAddressToMint}`)
+      setTokenAddressToMint("")
       setIsMinting(false)
     } catch (error) {
       console.error("Failed to mint NFT:", error)
@@ -164,7 +164,7 @@ function NFTManagement() {
             <CardContent>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="tokenIdToMint">Token ID</Label>
-                <Input id="tokenIdToMint" value={tokenIdToMint} onChange={(e) => setTokenIdToMint(e.target.value)} placeholder="Enter token ID to mint" />
+                <Input id="tokenIdToMint" value={tokenAddressToMint} onChange={(e) => setTokenAddressToMint(e.target.value)} placeholder="Enter token address wallet to mint" />
               </div>
             </CardContent>
             <CardFooter className="justify-between">
