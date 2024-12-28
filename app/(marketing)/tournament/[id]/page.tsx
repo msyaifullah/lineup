@@ -176,7 +176,7 @@ export default function TournamentFixture({ params }: { params: { id: string } }
 
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Latest Matches</h2>
-          <div className="flex flex-col max-w-lg">
+          <div className="flex flex-col max-w-xs">
             {tournamentData.matches
               .filter(match => match.round === 0) // Show only current round matches
               .map(match => (

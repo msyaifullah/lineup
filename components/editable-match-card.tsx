@@ -67,8 +67,8 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
 
   return (
     <div className={cn("rounded-lg shadow-sm", className)}>
-      <div className="p-4 flex">
-        <div className="flex flex-col items-center justify-center mr-4">
+      <div className="p-1 flex">
+        <div className="flex flex-col items-center justify-center mx-4">
           <span className="text-sm font-medium">{time}</span>
           {status && <span className="text-xs text-red-500 font-medium mt-1">{status}</span>}
         </div>
