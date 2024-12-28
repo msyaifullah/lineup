@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react"
 import { defineChain, estimateGas, getContract, NFT } from "thirdweb"
 import { burn, mintTo } from "thirdweb/extensions/erc721"
-import { ConnectButton, ThirdwebProvider, useActiveAccount, useSendTransaction, useWalletBalance } from "thirdweb/react"
+import { ConnectButton, ThirdwebProvider, useActiveAccount, useActiveWallet, useDisconnect, useSendTransaction, useWalletBalance } from "thirdweb/react"
 import { createWallet, inAppWallet } from "thirdweb/wallets"
+
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -18,6 +19,9 @@ const NFT_CONTRACT_ADDRESS = "0xD1B5fEf12858D883628eBC7f88cB01da7063e766"
 const wallets = [inAppWallet(), createWallet("io.metamask"), createWallet("com.coinbase.wallet"), createWallet("me.rainbow")]
 
 function NFTManagement() {
+  const { disconnect } = useDisconnect()
+  const wallet = useActiveWallet()
+
   const chain = defineChain(
     // {
     // chainId: 1, // Replace with your actual chainId
@@ -63,6 +67,7 @@ function NFTManagement() {
   const [isLoadingNFTs, setIsLoadingNFTs] = useState<boolean>(false)
   const [isMinting, setIsMinting] = useState<boolean>(false)
   const [isBurning, setIsBurning] = useState<boolean>(false)
+
 
   const handleEstimationGas = async () => {
     const transaction = mintTo({
@@ -126,6 +131,7 @@ function NFTManagement() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">NFT Management</h1>
       <div>
+        <p>Wallet connetion : </p>
         <p>Wallet address: {account?.address}</p>
         <p>
           Wallet balance: {balance?.displayValue} {balance?.symbol}
@@ -136,6 +142,8 @@ function NFTManagement() {
         <ConnectButton client={client} wallets={wallets} />
       ) : (
         <>
+          <p>  Connected as {JSON.stringify(wallet!)}</p>
+          <Button onClick={() => disconnect(wallet!)}>disconnect</Button>
           <Card className="mb-4">
             <CardHeader>
               <CardTitle>Your NFTs</CardTitle>
