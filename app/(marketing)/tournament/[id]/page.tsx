@@ -165,14 +165,14 @@ export default function TournamentFixture({ params }: { params: { id: string } }
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+        {/* <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Tournament Bracket</h2>
           <TournamentBracket
             matches={tournamentData.matches}
             rounds={4} // Round of 16 -> Quarter Finals -> Semi Finals -> Final
             onMatchUpdate={handleMatchUpdate}            
           />
-        </div>
+        </div> */}
 
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Latest Matches</h2>
@@ -192,23 +192,6 @@ export default function TournamentFixture({ params }: { params: { id: string } }
               ))}
           </div>
         </div>
-        
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Sample Matches</h2>
-          <div className="flex flex-col max-w-lg">
-            <div>
-              <a href="#round-1">Round 1</a>
-              <a href="#round-2">Round 2</a>
-              <a href="#round-3">Round 3</a>
-              <a href="#round-4">Round 4</a>
-              <a href="#round-5">Round 5</a>
-            </div>
-
-            
-          </div>
-        </div>
-
-        
       </div>
     </div>
   )

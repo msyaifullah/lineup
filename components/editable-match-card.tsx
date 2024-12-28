@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X } from "lucide-react"
+import { Minus, Plus, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -50,17 +50,97 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
         <img src={team.logo} alt={team.name} className="w-6 h-6 object-contain" />
         <span className="font-medium">{team.name}</span>
       </div>
-      <div className="space-y-1">
-        <Label htmlFor={`${team.name}-score`}>Score</Label>
-        <Input id={`${team.name}-score`} type="number" value={team.score || 0} onChange={(e) => setTeam({ ...team, score: parseInt(e.target.value) })} min={0} />
+      <div className="flex items-center justify-center space-x-2">
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 shrink-0 rounded-full"
+          onClick={() => {
+            const data = team.score || 0
+            setTeam({ ...team, score: Math.max(0, Math.min(30, data - 1)) })
+          }}
+        >
+          <Minus />
+          <span className="sr-only">Decrease</span>
+        </Button>
+        <div className="flex-1 text-center">
+          <div className="text-5xl font-bold tracking-tighter">{team.score || 0}</div>
+          <div className="text-[0.70rem] uppercase text-muted-foreground">Score</div>
+        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 shrink-0 rounded-full"
+          onClick={() => {
+            const data = team.score || 0
+            setTeam({ ...team, score: Math.max(0, Math.min(30, data + 1)) })
+          }}
+        >
+          <Plus />
+          <span className="sr-only">Increase</span>
+        </Button>
       </div>
-      <div className="space-y-1">
-        <Label htmlFor={`${team.name}-yellow`}>Yellow Cards</Label>
-        <Input id={`${team.name}-yellow`} type="number" value={team.yellowCards || 0} onChange={(e) => setTeam({ ...team, yellowCards: parseInt(e.target.value) })} min={0} />
+
+      <div className="flex items-center justify-center space-x-2">
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 shrink-0 rounded-full"
+          onClick={() => {
+            const data = team.yellowCards || 0
+            setTeam({ ...team, yellowCards: Math.max(0, Math.min(30, data - 1)) })
+          }}
+        >
+          <Minus />
+          <span className="sr-only">Decrease</span>
+        </Button>
+        <div className="flex-1 text-center">
+          <div className="text-5xl font-bold tracking-tighter">{team.yellowCards || 0}</div>
+          <div className="text-[0.70rem] uppercase text-muted-foreground">Yellow Card</div>
+        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 shrink-0 rounded-full"
+          onClick={() => {
+            const data = team.yellowCards || 0
+            setTeam({ ...team, yellowCards: Math.max(0, Math.min(30, data + 1)) })
+          }}
+        >
+          <Plus />
+          <span className="sr-only">Increase</span>
+        </Button>
       </div>
-      <div className="space-y-1">
-        <Label htmlFor={`${team.name}-red`}>Red Cards</Label>
-        <Input id={`${team.name}-red`} type="number" value={team.redCards || 0} onChange={(e) => setTeam({ ...team, redCards: parseInt(e.target.value) })} min={0} />
+
+      <div className="flex items-center justify-center space-x-2">
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 shrink-0 rounded-full"
+          onClick={() => {
+            const data = team.redCards || 0
+            setTeam({ ...team, redCards: Math.max(0, Math.min(30, data - 1)) })
+          }}
+        >
+          <Minus />
+          <span className="sr-only">Decrease</span>
+        </Button>
+        <div className="flex-1 text-center">
+          <div className="text-5xl font-bold tracking-tighter">{team.redCards || 0}</div>
+          <div className="text-[0.70rem] uppercase text-muted-foreground">Red Card</div>
+        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 shrink-0 rounded-full"
+          onClick={() => {
+            const data = team.redCards || 0
+            setTeam({ ...team, redCards: Math.max(0, Math.min(30, data + 1)) })
+          }}
+        >
+          <Plus />
+          <span className="sr-only">Increase</span>
+        </Button>
       </div>
     </div>
   )
