@@ -170,7 +170,7 @@ export default function TournamentFixture({ params }: { params: { id: string } }
           <TournamentBracket
             matches={tournamentData.matches}
             rounds={4} // Round of 16 -> Quarter Finals -> Semi Finals -> Final
-            onMatchUpdate={handleMatchUpdate}
+            onMatchUpdate={handleMatchUpdate}            
           />
         </div>
 
