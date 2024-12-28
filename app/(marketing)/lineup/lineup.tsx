@@ -125,7 +125,7 @@ export default function Lineup() {
               heightOri={fieldHeight}
             />
             <div className="absolute left-10 top-10">
-              <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl italic" style={{ color: color }}>
+              <h2 className="font-heading text-3xl italic leading-[1.1] sm:text-3xl md:text-6xl" style={{ color: color }}>
                 {teamName}&nbsp;
               </h2>
               <h4 className="font-heading text-xl leading-[1.1]" style={{ color: color }}>

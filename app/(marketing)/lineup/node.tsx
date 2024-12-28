@@ -106,8 +106,8 @@ const DraggableDiv: React.FC<DraggableDivProps> = ({ value, position, athlete, p
           className={cn(
             "absolute flex size-[70px] items-center justify-center rounded-full",
             "hover:cursor-pointer",
-            "bg-slate-50 outline-4 outline-double outline-blue-500",
-            (athlete[value].name === "" || athlete[value].number === 0) && "bg-black opacity-45 outline-4 outline-dashed"
+            "bg-slate-50 outline-double outline-4 outline-blue-500",
+            (athlete[value].name === "" || athlete[value].number === 0) && "bg-black opacity-45 outline-dashed outline-4"
           )}
           style={{
             transform: `translate(${pos.x - 35}px, ${pos.y - 35}px)`,

@@ -47,14 +47,14 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
   const TeamScore = ({ team, setTeam }: { team: Team; setTeam: (team: Team) => void }) => (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
-        <img src={team.logo} alt={team.name} className="w-6 h-6 object-contain" />
+        <img src={team.logo} alt={team.name} className="size-6 object-contain" />
         <span className="font-medium">{team.name}</span>
       </div>
       <div className="flex items-center justify-center space-x-2">
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 shrink-0 rounded-full"
+          className="size-8 shrink-0 rounded-full"
           onClick={() => {
             const data = team.score || 0
             setTeam({ ...team, score: Math.max(0, Math.min(30, data - 1)) })
@@ -70,7 +70,7 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 shrink-0 rounded-full"
+          className="size-8 shrink-0 rounded-full"
           onClick={() => {
             const data = team.score || 0
             setTeam({ ...team, score: Math.max(0, Math.min(30, data + 1)) })
@@ -85,7 +85,7 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 shrink-0 rounded-full"
+          className="size-8 shrink-0 rounded-full"
           onClick={() => {
             const data = team.yellowCards || 0
             setTeam({ ...team, yellowCards: Math.max(0, Math.min(30, data - 1)) })
@@ -101,7 +101,7 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 shrink-0 rounded-full"
+          className="size-8 shrink-0 rounded-full"
           onClick={() => {
             const data = team.yellowCards || 0
             setTeam({ ...team, yellowCards: Math.max(0, Math.min(30, data + 1)) })
@@ -116,7 +116,7 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 shrink-0 rounded-full"
+          className="size-8 shrink-0 rounded-full"
           onClick={() => {
             const data = team.redCards || 0
             setTeam({ ...team, redCards: Math.max(0, Math.min(30, data - 1)) })
@@ -132,7 +132,7 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 shrink-0 rounded-full"
+          className="size-8 shrink-0 rounded-full"
           onClick={() => {
             const data = team.redCards || 0
             setTeam({ ...team, redCards: Math.max(0, Math.min(30, data + 1)) })
@@ -147,32 +147,32 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
 
   return (
     <div className={cn("rounded-lg shadow-sm", className)}>
-      <div className="p-1 flex">
-        <div className="flex flex-col items-center justify-center mx-4">
+      <div className="flex p-1">
+        <div className="mx-4 flex flex-col items-center justify-center">
           <span className="text-sm font-medium">{time}</span>
-          {status && <span className="text-xs text-red-500 font-medium mt-1">{status}</span>}
+          {status && <span className="mt-1 text-xs font-medium text-red-500">{status}</span>}
         </div>
-        <div className="flex-grow">
-          <div className="flex items-center justify-between cursor-pointer hover:bg-gray-100 p-2 rounded-md transition-colors" onClick={() => handleTeamClick("home")}>
+        <div className="grow">
+          <div className="flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors hover:bg-gray-100" onClick={() => handleTeamClick("home")}>
             <div className="flex items-center gap-3">
-              <img src={homeTeam.logo} alt={homeTeam.name} className="w-8 h-8 object-contain" />
+              <img src={homeTeam.logo} alt={homeTeam.name} className="size-8 object-contain" />
               <span className="font-medium">{homeTeam.name}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold w-6 text-center">{homeTeam.score ?? "-"}</span>
-              {homeTeam.yellowCards && <span className="px-1 bg-yellow-400 text-xs font-bold rounded">{homeTeam.yellowCards}</span>}
-              {homeTeam.redCards && <span className="px-1 bg-red-600 text-white text-xs font-bold rounded">{homeTeam.redCards}</span>}
+              <span className="w-6 text-center text-lg font-bold">{homeTeam.score ?? "-"}</span>
+              {homeTeam.yellowCards && <span className="rounded bg-yellow-400 px-1 text-xs font-bold">{homeTeam.yellowCards}</span>}
+              {homeTeam.redCards && <span className="rounded bg-red-600 px-1 text-xs font-bold text-white">{homeTeam.redCards}</span>}
             </div>
           </div>
-          <div className="flex items-center justify-between cursor-pointer hover:bg-gray-100 p-2 rounded-md transition-colors" onClick={() => handleTeamClick("away")}>
+          <div className="flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors hover:bg-gray-100" onClick={() => handleTeamClick("away")}>
             <div className="flex items-center gap-3">
-              <img src={awayTeam.logo} alt={awayTeam.name} className="w-8 h-8 object-contain" />
+              <img src={awayTeam.logo} alt={awayTeam.name} className="size-8 object-contain" />
               <span className="font-medium">{awayTeam.name}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold w-6 text-center">{awayTeam.score ?? "-"}</span>
-              {awayTeam.yellowCards && <span className="px-1 bg-yellow-400 text-xs font-bold rounded">{awayTeam.yellowCards}</span>}
-              {awayTeam.redCards && <span className="px-1 bg-red-600 text-white text-xs font-bold rounded">{awayTeam.redCards}</span>}
+              <span className="w-6 text-center text-lg font-bold">{awayTeam.score ?? "-"}</span>
+              {awayTeam.yellowCards && <span className="rounded bg-yellow-400 px-1 text-xs font-bold">{awayTeam.yellowCards}</span>}
+              {awayTeam.redCards && <span className="rounded bg-red-600 px-1 text-xs font-bold text-white">{awayTeam.redCards}</span>}
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@ export function EditableMatchCard({ homeTeam, awayTeam, time, status, className,
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setIsEditing(false)}>
-              <X className="w-4 h-4 mr-2" />
+              <X className="mr-2 size-4" />
               Cancel
             </Button>
             <Button onClick={handleSave}>Save Changes</Button>

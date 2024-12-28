@@ -47,8 +47,8 @@ export default function FootballField() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-center">Customizable Football Field Patterns</h1>
+    <div className="mx-auto max-w-2xl space-y-4 p-4">
+      <h1 className="text-center text-2xl font-bold">Customizable Football Field Patterns</h1>
       <div style={fieldStyle}></div>
       <div className="space-y-4">
         <RadioGroup 
@@ -80,7 +80,7 @@ export default function FootballField() {
             onValueChange={(value) => setStripeWidth(value[0])}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="color1">Color 1</Label>
             <div className="flex items-center space-x-2">
@@ -89,13 +89,13 @@ export default function FootballField() {
                 type="color"
                 value={color1}
                 onChange={(e) => setColor1(e.target.value)}
-                className="w-12 h-12 p-1 rounded"
+                className="size-12 rounded p-1"
               />
               <Input
                 type="text"
                 value={color1}
                 onChange={(e) => setColor1(e.target.value)}
-                className="flex-grow"
+                className="grow"
               />
             </div>
           </div>
@@ -107,13 +107,13 @@ export default function FootballField() {
                 type="color"
                 value={color2}
                 onChange={(e) => setColor2(e.target.value)}
-                className="w-12 h-12 p-1 rounded"
+                className="size-12 rounded p-1"
               />
               <Input
                 type="text"
                 value={color2}
                 onChange={(e) => setColor2(e.target.value)}
-                className="flex-grow"
+                className="grow"
               />
             </div>
           </div>

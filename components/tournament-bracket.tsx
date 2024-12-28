@@ -27,7 +27,7 @@ interface TournamentBracketProps {
 }
 
 const CardMatch = () => (
-  <div className="m-2 w-96 leading-relaxed  relative with-connector">
+  <div className="with-connector relative m-2  w-96 leading-relaxed">
     <div className="flex flex-col">
       <EditableMatchCard
         key={1}
@@ -49,15 +49,15 @@ const CardMatch = () => (
 )
 
 const CardMatchBye = () => (
-  <div className="flex items-center w-96 m-2 p-1 leading-relaxed bg-sky-50 rounded-lg shadow-sm  relative with-connector with-bye">
-    <div className="h-16 flex">
-      <div className="flex items-center justify-between cursor-pointer hover:bg-gray-100 p-2 rounded-md transition-colors" onClick={() => {}}>
+  <div className="with-connector with-bye relative m-2 flex w-96 items-center rounded-lg bg-sky-50  p-1 leading-relaxed shadow-sm">
+    <div className="flex h-16">
+      <div className="flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors hover:bg-gray-100" onClick={() => {}}>
         <div className="flex items-center gap-3">
-          <img src={"/placeholder.svg?height=32&width=32"} alt="dadada FC" className="w-8 h-8 object-contain" />
+          <img src={"/placeholder.svg?height=32&width=32"} alt="dadada FC" className="size-8 object-contain" />
           <span className="font-medium">dadaa FC</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold w-6 text-center"> -</span>
+          <span className="w-6 text-center text-lg font-bold"> -</span>
         </div>
       </div>
     </div>
@@ -67,8 +67,8 @@ const CardMatchBye = () => (
 export function TournamentBracket({ matches: initialMatches, rounds, onMatchUpdate }: TournamentBracketProps) {
   return (
     <div className="overflow-x-auto">
-      <div className="w-dvw flex mr-3 mt-16">
-        <div className="flex flex-1 flex-col justify-around mr-48 round">
+      <div className="mr-3 mt-16 flex w-dvw">
+        <div className="round mr-48 flex flex-1 flex-col justify-around">
           <CardMatch />
           <CardMatch />
           <CardMatchBye />
@@ -86,7 +86,7 @@ export function TournamentBracket({ matches: initialMatches, rounds, onMatchUpda
           <CardMatch />
           <CardMatch />
         </div>
-        <div className="flex flex-1 flex-col justify-around mr-48 ml-5 round">
+        <div className="round ml-5 mr-48 flex flex-1 flex-col justify-around">
           <CardMatch />
           <CardMatch />
           <CardMatch />
@@ -96,17 +96,17 @@ export function TournamentBracket({ matches: initialMatches, rounds, onMatchUpda
           <CardMatch />
           <CardMatch />
         </div>
-        <div className="flex flex-1 flex-col justify-around mr-48 ml-5 round">
+        <div className="round ml-5 mr-48 flex flex-1 flex-col justify-around">
           <CardMatch />
           <CardMatch />
           <CardMatch />
           <CardMatch />
         </div>
-        <div className="flex flex-1 flex-col justify-around mr-48 ml-5 round">
+        <div className="round ml-5 mr-48 flex flex-1 flex-col justify-around">
           <CardMatch />
           <CardMatch />
         </div>
-        <div className="flex flex-1 flex-col justify-around mr-48 ml-5 round round-winner">
+        <div className="round round-winner ml-5 mr-48 flex flex-1 flex-col justify-around">
           <CardMatch />
         </div>
       </div>

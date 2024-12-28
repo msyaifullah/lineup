@@ -129,7 +129,7 @@ function NFTManagement() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">NFT Management</h1>
+      <h1 className="mb-4 text-2xl font-bold">NFT Management</h1>
       <div>
         <p>Wallet connetion : </p>
         <p>Wallet address: {account?.address}</p>
@@ -159,7 +159,7 @@ function NFTManagement() {
                   ))}
                 </ul>
               ) : (
-                <p>You don't own any NFTs yet.</p>
+                <p>You don&lsquo;t own any NFTs yet.</p>
               )}
             </CardContent>
           </Card>

@@ -157,7 +157,7 @@ export default function TournamentFixture({ params }: { params: { id: string } }
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-8">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">{tournamentData.name}</h1>
+          <h1 className="mb-2 text-3xl font-bold">{tournamentData.name}</h1>
           <div className="flex gap-4 text-sm text-gray-600">
             <span>{tournamentData.type}</span>
             <span>•</span>
@@ -174,9 +174,9 @@ export default function TournamentFixture({ params }: { params: { id: string } }
           />
         </div> */}
 
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Latest Matches</h2>
-          <div className="flex flex-col max-w-xs">
+        <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-xl font-semibold">Latest Matches</h2>
+          <div className="flex max-w-xs flex-col">
             {tournamentData.matches
               .filter(match => match.round === 0) // Show only current round matches
               .map(match => (
@@ -187,7 +187,7 @@ export default function TournamentFixture({ params }: { params: { id: string } }
                   time={match.time}
                   status={match.status}                  
                   onUpdate={(homeTeam, awayTeam) => handleMatchUpdate(match.id, homeTeam, awayTeam)}
-                  className="bg-sky-50 my-2"
+                  className="my-2 bg-sky-50"
                 />
               ))}
           </div>
