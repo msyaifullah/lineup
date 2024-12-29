@@ -1,6 +1,6 @@
-import { createThirdwebClient } from "thirdweb"
+import { createThirdwebClient, ThirdwebClient } from "thirdweb"
 
-export const client = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
-  secretKey: process.env.NEXT_PUBLIC_THIRDWEB_SECRET!,
+export const client: ThirdwebClient = createThirdwebClient({
+  clientId: process.env.NEXT_THIRDWEB_CLIENT_ID,
+  secretKey: process.env.NEXT_THIRDWEB_SECRET!,
 })
