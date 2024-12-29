@@ -201,7 +201,7 @@ function NFTManagement({ client }: NFTManagementProps) {
                 {previewUrl && (
                   <>
                     <div className="mt-2">
-                      <img src={previewUrl} alt="Profile picture preview" className="w-32 h-32 object-cover rounded-full" />
+                      <img src={previewUrl} alt="Profile picture preview" className="size-32 rounded-full object-cover" />
                     </div>
                     <Button onClick={handlePictureUpload}>upload</Button>
                   </>
