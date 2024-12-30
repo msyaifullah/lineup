@@ -94,7 +94,7 @@ function NFTManagement({ client }: NFTManagementProps) {
 
   const handleEstimationGas = async () => {
     if (!address || !profilePictureURL) return
-    const transaction = mintTo({
+    const transaction = await mintTo({
       contract,
       to: tokenAddressToMint,
       nft: {
@@ -114,7 +114,7 @@ function NFTManagement({ client }: NFTManagementProps) {
     if (!address || !profilePictureURL) return
     try {
       setIsMinting(true)
-      const transaction = mintTo({
+      const transaction = await mintTo({
         contract,
         to: tokenAddressToMint,
         nft: {
@@ -138,7 +138,7 @@ function NFTManagement({ client }: NFTManagementProps) {
   const handleBurn = async () => {
     try {
       setIsBurning(true)
-      const transaction = burn({
+      const transaction = await burn({
         contract,
         tokenId: BigInt(tokenIdToBurn),
       })
@@ -213,7 +213,7 @@ function NFTManagement({ client }: NFTManagementProps) {
               </div>
             </CardContent>
             <CardFooter className="justify-between">
-              <Button onClick={handleMint} disabled={isMinting}>
+              <Button onClick={handleMint} disabled={isMinting && !profilePictureURL}>
                 {isMinting ? "Minting..." : "Mint NFT"}
               </Button>
               <Button onClick={handleEstimationGas}>Estimate gass check on console</Button>
