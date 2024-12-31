@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
-import { ThirdwebProvider } from "./thirdweb"
+import { ThirdwebProvider } from "./config/thirdweb"
 
 const inter = Inter({ subsets: ["latin"] })
 

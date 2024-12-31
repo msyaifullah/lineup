@@ -1,7 +1,7 @@
-import { client } from "../client";
+import { client } from "../config/client";
 import { NFT, prepareContractCall } from "thirdweb";
 import { MediaRenderer, TransactionButton } from "thirdweb/react";
-import { NFT_CONTRACT, STAKING_CONTRACT } from "../contracts";
+import { NFT_CONTRACT, STAKING_CONTRACT } from "../config/contracts";
 import { useState } from "react";
 import { approve } from "thirdweb/extensions/erc721";
 

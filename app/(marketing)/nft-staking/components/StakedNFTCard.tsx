@@ -1,7 +1,7 @@
 import { MediaRenderer, TransactionButton, useReadContract } from "thirdweb/react";
-import { NFT_CONTRACT, STAKING_CONTRACT } from "../contracts";
+import { NFT_CONTRACT, STAKING_CONTRACT } from "../config/contracts";
 import { getNFT } from "thirdweb/extensions/erc721";
-import { client } from "../client";
+import { client } from "../config/client";
 import { prepareContractCall } from "thirdweb";
 
 type StakedNFTCardProps = {

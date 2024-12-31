@@ -1,6 +1,6 @@
-import { ConnectEmbed } from "./thirdweb";
-import { client } from "./client";
-import { chain } from "./chain";
+import { ConnectEmbed } from "./config/thirdweb";
+import { client } from "./config/client";
+import { chain } from "./config/chain";
 import { Staking } from "./components/Staking";
 
 export default function Home() {
