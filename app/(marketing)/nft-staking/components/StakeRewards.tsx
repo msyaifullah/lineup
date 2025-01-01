@@ -1,5 +1,5 @@
 import { TransactionButton, useActiveAccount, useReadContract } from "thirdweb/react";
-import { REWARD_TOKEN_CONTRACT, STAKING_CONTRACT } from "../config/contracts";
+import { REWARD_TOKEN_CONTRACT, STAKING_CONTRACT, rewardTokenContractAddress } from "../config/contracts";
 import { prepareContractCall, toEther } from "thirdweb";
 import { useEffect } from "react";
 import { balanceOf } from "thirdweb/extensions/erc721";
@@ -41,7 +41,9 @@ export const StakeRewards = () => {
             {!isTokenBalanceLoading && (
                 <p>Wallet Balance: {toEther(BigInt(tokenBalance!.toString()))}</p>
             )}
+            
             <h2 style={{ marginBottom: "20px"}}>Stake Rewards: {stakedInfo && toEther(BigInt(stakedInfo[1].toString()))}</h2>
+            <p style={{ marginBottom: "20px"}}>reward  : {rewardTokenContractAddress}</p>
             <TransactionButton
                 transaction={() => (
                     prepareContractCall({
